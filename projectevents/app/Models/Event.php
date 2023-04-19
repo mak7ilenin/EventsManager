@@ -17,6 +17,6 @@ class Event extends Model
         'image',
         'date_event',
         'aadress',
-        'description'
+        'description',
     ];
 }

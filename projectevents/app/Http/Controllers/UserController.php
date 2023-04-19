@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Hash;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -13,21 +14,22 @@ class UserController extends Controller
      */
     public function index()
     {
-        $roles = array('user', 'manager', 'admin');
-        $users = User::orderBy('name', 'desc')->get();
+        $roles = array('admin', 'manager', 'user');
+        $users = User::orderBy('name', 'asc')->get();
         return view('users.index', compact('users', 'roles'));
-    
     }
-    public function usersByRole(Request $request)
+
+    //list users by role
+    public function userByrole(Request $request)
     {
         $roles = array('admin', 'manager', 'user');
         $data = $request->all();
-        $selectedRole = $data['role'];
-        if($data['role'] == '0') {
+        $selectRole = $data['role'];
+        if ($data['role'] == "0") {
             return redirect('/users');
         } else {
             $users = User::where('role', 'LIKE', $data['role'])->get();
-            return view('users.index', compact('users', 'roles', 'selectedRole'));
+            return view('users.index', compact('users', 'roles', 'selectRole'));
         }
     }
 
@@ -36,7 +38,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $roles = array('admin', 'manager', 'user');
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -44,29 +47,49 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $roles = array('admin', 'manager', 'user');
         $request->validate([
-            'name' => 'required',
-            'password' => 'required',
-            'confirm_password' => 'required',
-            'email' => 'required',
-            'role' => 'required'
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required',
         ]);
-        $password = $request->password;
-        $confirm_password = $request->confirm_password;
-        if($confirm_password == $password) {
-            User::create([
-                'name' => $request->name,
-                'password' => Hash::make($password),
-                'email' => $request->email,
-                'role' => $request->role
-            ]);
-        }
-        return redirect('/users');
+        // add new user query
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
+        return redirect('users');
+    }
+
+    public function form_register()
+    {
+        return view('users/register');
+    }
+
+    public function store_register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required',
+        ]);
+        //Запрос на добавление пользователя
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'user',
+        ]);
+        return view('users.registerResult');
     }
 
     /**
      * Display the specified resource.
-     */
+    */
     public function show(User $user)
     {
         //
@@ -77,7 +100,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $roles = array('admin', 'manager', 'user');
+        return view('users.edit', compact('roles', 'user'));
     }
 
     /**
@@ -87,24 +111,25 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'role' => 'required'
         ]);
-        if($request->password) {
+        if (!isset($request->role)) $request->role = Auth::user()->role;
+        if ($request->password) {
             $request->validate([
                 'password' => 'required|string|min:6|confirmed',
                 'password_confirmation' => 'required',
             ]);
             $user->update([
-                'name' => $request->email,
+                'name' => $request->name,
                 'password' => Hash::make($request->password),
                 'role' => $request->role
             ]);
-        } else {
-            $user->update([
-                'name' => $request->name,
-                'role'=>$request->role,
-            ]);
+            return redirect('/users');;
         }
+        $user->update([
+            'name' => $request->name,
+            'role' => $request->role
+        ]);
+
         return redirect('/users');
     }
 
