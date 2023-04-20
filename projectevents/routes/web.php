@@ -21,7 +21,10 @@ use App\Http\Controllers\AuthController;
 Route::get('/', [EventController::class, 'listLimit']);
 Route::get('/register', [UserController::class, 'form_register']);
 Route::post('/register', [UserController::class, 'store_register']);
+
+// Events render
 Route::get('/show/{event}', [EventController::class, 'show']);
+Route::get('/events', [EventController::class, 'allEvents'])->name('search');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');

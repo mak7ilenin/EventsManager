@@ -37,7 +37,7 @@
                     <div class="clearfix"></div>
                     <div class="separator">
                         <p class="change_link">
-                            <a href="/" class="to_register"> Log In </a>
+                            <a href="/login" class="to_login"> Log In </a>
                         </p>
                         <div class="clearfix"></div>
                         <br />

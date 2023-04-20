@@ -11,15 +11,15 @@
     <title>Dashboard panel</title>
 
     <!-- Bootstrap -->
-    <link href='{{ asset("components/bootstrap/dist/css/bootstrap.min.css") }}' rel="stylesheet">
+    <link href='{{ asset('components/bootstrap/dist/css/bootstrap.min.css') }}' rel="stylesheet">
 
-    <link href='{{ asset("components/js/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css") }}'
+    <link href='{{ asset('components/js/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}'
         rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href='{{ asset("components/css/font-awesome/css/font-awesome.min.css") }}' rel="stylesheet">
+    <link href='{{ asset('components/css/font-awesome/css/font-awesome.min.css') }}' rel="stylesheet">
     <!-- Custom Theme Style -->
-    <link href='{{ asset("components/css/custom.min.css") }}' rel="stylesheet">
+    <link href='{{ asset('components/css/custom.min.css') }}' rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -37,11 +37,11 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            <img src='{{ asset("components/images/user.png")}}' alt="..."
+                            <img src='{{ asset('components/images/user.png') }}' alt="..."
                                 class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
-                            <h2>Welcome,{{Auth::user()->name}}</h2>
+                            <h2>Welcome,{{ Auth::user()->name }}</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -53,24 +53,24 @@
                         <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
-                                @if(Gate::allows('isAdmin')|| Gate::allows('isManager'))
-                                <li><a><i class="fa fa-home"></i> Events Manage </a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{{ url('/eventlist') }}">Events List</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-list"></i> Registration list Manage </a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{{ url('/registerlist') }}">Registration list</a></li>
-                                    </ul>
-                                </li>
+                                @if (Gate::allows('isAdmin') || Gate::allows('isManager'))
+                                    <li><a><i class="fa fa-home"></i> Events Manage </a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ url('/eventlist') }}">Events List</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a><i class="fa fa-list"></i> Registration list Manage </a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ url('/registerlist') }}">Registration list</a></li>
+                                        </ul>
+                                    </li>
                                 @endif
-                                @if(Gate::allows('isAdmin'))
-                                <li><a><i class="fa fa-users"></i> Users Manage</a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{{ url('/users') }}">Users List</a></li>
-                                    </ul>
-                                </li>
+                                @if (Gate::allows('isAdmin'))
+                                    <li><a><i class="fa fa-users"></i> Users Manage</a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ url('/users') }}">Users List</a></li>
+                                        </ul>
+                                    </li>
                                 @endif
                             </ul>
                             <a href="/" class="btn btn-primary ml-3">Back to the events</a>
@@ -100,11 +100,13 @@
                             <li class="nav-item dropdown open" style="padding-left: 15px;">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true"
                                     id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                    <img src='{{ asset("components/images/user.png")}}' alt="">{{Auth::user()->name}}
+                                    <img src='{{ asset('components/images/user.png') }}'
+                                        alt="">{{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right"
                                     aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{url('/profile/'.Auth::user()->id)}}"> Profile</a>
+                                    <a class="dropdown-item" href="{{ url('/profile/' . Auth::user()->id) }}">
+                                        Profile</a>
 
                                     <a class="dropdown-item" href="{{ url('/logout') }}">
                                         <i class="fa fa-sign-out pull-right"></i> Log Out
@@ -161,12 +163,12 @@
     </div>
 
     <!-- jQuery -->
-    <script src='{{ asset("components/js/dist/jquery.min.js") }}'></script>
+    <script src='{{ asset('components/js/dist/jquery.min.js') }}'></script>
     <!-- Bootstrap -->
-    <script src='{{ asset("components/bootstrap/dist/js/bootstrap.bundle.min.js") }}'></script>
-    <script src='{{ asset("components/js/bootstrap-progressbar/bootstrap-progressbar.min.js") }}'></script>
+    <script src='{{ asset('components/bootstrap/dist/js/bootstrap.bundle.min.js') }}'></script>
+    <script src='{{ asset('components/js/bootstrap-progressbar/bootstrap-progressbar.min.js') }}'></script>
     <!-- Custom Theme Scripts -->
-    <script src='{{ asset("components/js/custom.min.js") }}'></script>
+    <script src='{{ asset('components/js/custom.min.js') }}'></script>
 </body>
 
 </html>

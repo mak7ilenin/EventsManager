@@ -9,8 +9,25 @@ class EventController extends Controller
 {
     public function listLimit()
     {
-        $events = Event::orderBy('date_event', 'DESC')-> take(3)->get();
+        $events = Event::orderBy('date_event', 'DESC')->take(3)->get();
         return view('main', compact('events'));
+    }
+    public function allEvents(Request $request)
+    {
+        if ($request->input('search') == null) {
+            $events = Event::orderBy('date_event', 'desc')->get();
+        } else {
+            $search = $request->input('search');
+            $events = Event::orderBy('date_event', 'DESC')
+                ->where('title', 'like', '%'.$search.'%')
+                ->get();
+        }
+        return view('events', compact('events'));
+    }
+    public function search(Request $request)
+    {
+        $events = $request->input('search');
+        return view('events', compact('events'));
     }
     /**
      * Display a listing of the resource.

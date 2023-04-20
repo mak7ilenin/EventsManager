@@ -1,7 +1,7 @@
 @extends('layouts.appMain')
 
 @section('content')
-    <h1 class="text-center mb-5 mt-5">Events List</h1>
+    <h1 class="text-center mb-5 mt-5">Close events</h1>
     <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
         @foreach ($events as $event)
             <div class="card ml-3 mr-3" style="width: 30rem; height: 450px">
