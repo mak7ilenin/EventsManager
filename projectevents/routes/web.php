@@ -24,7 +24,7 @@ Route::post('/register', [UserController::class, 'store_register']);
 
 // Events render
 Route::get('/show/{event}', [EventController::class, 'show']);
-Route::get('/events', [EventController::class, 'allEvents'])->name('search');
+Route::get('/events', [EventController::class, 'allEvents'])->name('search')->name('month');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');

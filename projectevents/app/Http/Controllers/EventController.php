@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use \Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -14,20 +15,31 @@ class EventController extends Controller
     }
     public function allEvents(Request $request)
     {
-        if ($request->input('search') == null) {
-            $events = Event::orderBy('date_event', 'desc')->get();
-        } else {
+        if ($request->input('search') != null) {
             $search = $request->input('search');
-            $events = Event::orderBy('date_event', 'DESC')
-                ->where('title', 'like', '%'.$search.'%')
+            $events = array();
+            $events[] = Event::orderBy('date_event', 'DESC')
+                ->where('title', 'like', '%' . $search . '%')
                 ->get();
+        } else if ($request->input('month') != null) {
+            $reqMonths = $request->input('month');
+            $events = array();
+            for ($i = 0; $i < count($reqMonths); $i++) {
+                $event = DB::table('events')
+                    ->whereMonth('date_event', $reqMonths[$i])
+                    ->get();
+                    $events[] = $event;
+            }
+        } else {
+            $events = array();
+            $events[] = Event::orderBy('date_event', 'desc')->get();
         }
-        return view('events', compact('events'));
-    }
-    public function search(Request $request)
-    {
-        $events = $request->input('search');
-        return view('events', compact('events'));
+        $months = DB::table('events')
+            ->distinct()
+            ->select(DB::raw('MONTHNAME(date_event) AS month, MONTH(date_event) as monthNum'))
+            ->orderBy('date_event', 'DESC')
+            ->get();
+        return view('events', compact('events', 'months'));
     }
     /**
      * Display a listing of the resource.
