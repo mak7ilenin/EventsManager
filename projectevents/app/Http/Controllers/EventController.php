@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\RegisterEvents;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\DB;
 
@@ -15,31 +16,52 @@ class EventController extends Controller
     }
     public function allEvents(Request $request)
     {
+        // SEARCH FUNCTION
         if ($request->input('search') != null) {
             $search = $request->input('search');
-            $events = array();
-            $events[] = Event::orderBy('date_event', 'DESC')
+            $events = Event::orderBy('date_event', 'DESC')
                 ->where('title', 'like', '%' . $search . '%')
                 ->get();
-        } else if ($request->input('month') != null) {
-            $reqMonths = $request->input('month');
-            $events = array();
-            for ($i = 0; $i < count($reqMonths); $i++) {
-                $event = DB::table('events')
-                    ->whereMonth('date_event', $reqMonths[$i])
-                    ->get();
-                    $events[] = $event;
-            }
-        } else {
-            $events = array();
-            $events[] = Event::orderBy('date_event', 'desc')->get();
         }
+        // MONTHS FILTER FUNCTION
+        else if ($request->input('month') != null) {
+            $reqMonths = $request->input('month');
+            $events = Event::whereIn(DB::raw("MONTH(date_event)"), $reqMonths)->get();
+        }
+        // ALL EVENTS RENDER
+        else {
+            $events = Event::orderBy('date_event', 'desc')->get();
+        }
+        // GET ALL USED MONTHS BY EVENTS
         $months = DB::table('events')
             ->distinct()
             ->select(DB::raw('MONTHNAME(date_event) AS month, MONTH(date_event) as monthNum'))
             ->orderBy('date_event', 'DESC')
             ->get();
         return view('events', compact('events', 'months'));
+    }
+    public function registration(Event $event)
+    {
+        return view('events.register', compact('event'));
+    }
+    public function register(Request $request, Event $event)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|max:255',
+            'group_name' => 'required|string|max:255',
+            'members_number' => 'required|numeric|max:4',
+        ]);
+        RegisterEvents::create([
+            'contact_person' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'group_name' => $request->group_name,
+            'number_members' => $request->members_number,
+            'events_id' => rtrim($event->id),
+        ]);
+        return view('events.registerResult', compact('event', 'request'));
     }
     /**
      * Display a listing of the resource.

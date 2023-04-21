@@ -19,4 +19,8 @@ class Event extends Model
         'aadress',
         'description',
     ];
+    public function registerEvent()
+    {
+        return $this->hasMany('App\Models\RegisterEvents');
+    }
 }
