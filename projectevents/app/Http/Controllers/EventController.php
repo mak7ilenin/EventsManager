@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\RegisterEvents;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -108,7 +109,59 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return view('events.detail', compact('event'));
+        $updateDate = $event->updated_at;
+        $date = new Carbon($updateDate);
+        $currentYear = now()->year;
+        $currentMonth = now()->month;
+        $currentDay = now()->day;
+
+        $year = null;
+        $month = null;
+        $day = null;
+
+        if ($date->year < $currentYear) {
+            $year = $currentYear - $date->year;
+        }
+        if ($date->month < $currentMonth) {
+            $month = $currentMonth - $date->month;
+        }
+        if ($date->day < $currentYear) {
+            $day = $currentDay - $date->day;
+        }
+
+        if ($year == null && $month == null && $day == null) {
+            $updated_at = "Today";
+        } else if ($year != null) {
+            if ($year > 1) {
+                $updated_at = "$year years ago";
+            } else {
+                $updated_at = "$year year ago";
+            }
+            return view('events.detail', compact('event', 'updated_at'));
+        } else if ($month != null) {
+            if ($month > 1) {
+                $updated_at = "$month months ago";
+            } else {
+                $updated_at = "$month month ago";
+            }
+            return view('events.detail', compact('event', 'updated_at'));
+        } else if ($day != null) {
+            if ($day > 1) {
+                $weekDiff = (int)($day / 7);
+                if ($weekDiff > 0) {
+                    if ($weekDiff == 1) {
+                        $updated_at = "$weekDiff week ago";
+                    } else {
+                        $updated_at = "$weekDiff weeks ago";
+                    }
+                } else {
+                    $updated_at = "$day days ago";
+                }
+            } else {
+                $updated_at = "Yesterday";
+            }
+        }
+        return view('events.detail', compact('event', 'updated_at'));
     }
 
     /**

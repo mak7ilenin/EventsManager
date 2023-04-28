@@ -22,9 +22,7 @@
             <p class="card-text" style="font-size: 18px;">{{ $event->description }}</p>
             <p class="card-text border-top pt-2">
                 Last updated at:
-                <small class="text-body-secondary">
-                    {{ Carbon\Carbon::parse($event->updated_at)->format('d.m.Y') }}
-                </small>
+                <small class="text-body-secondary">{{ $updated_at }}</small>
             </p>
         </div>
     </div>
