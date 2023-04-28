@@ -1,4 +1,3 @@
-
 @extends('layouts.appLogin')
 
 @section('content')
@@ -7,9 +6,9 @@
         <div class="animate form login_form">
             <section class="login_content">
                 @if (session()->has('error'))
-                <div class="alert alert-danger">
-                    {{session()->get('error')}}
-                </div>
+                    <div class="alert alert-danger">
+                        {{ session()->get('error') }}
+                    </div>
                 @endif
                 <p class="login-box-msg">Sign up to start your dashboard</p>
                 <form>
@@ -30,8 +29,7 @@
                         </div>
                     </div>
                 </form>
-            </section>    
-        </div>    
-    </div>    
-
+            </section>
+        </div>
+    </div>
 @endsection

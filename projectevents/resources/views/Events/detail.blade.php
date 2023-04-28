@@ -8,8 +8,7 @@
         <div class="card-body">
             <div class="w-100 d-flex justify-between">
                 <h4 class="card-title w-50" style="color: #98acc1">{{ $event->title }}</h4>
-                <a href="/event/{{ $event->id }}/register" 
-                    class="btn btn-success w-50"
+                <a href="/event/{{ $event->id }}/register" class="btn btn-success w-50"
                     style="text-decoration: none; color: #fff;">
                     Register for this event
                 </a>

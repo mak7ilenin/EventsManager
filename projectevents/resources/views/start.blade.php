@@ -6,12 +6,12 @@
         <div class="animate form login_form">
             <section class="login_content">
                 @if (session()->has('error'))
-                <div class="alert alert-danger">
-                    {{session()->get('error')}}
-                </div>
+                    <div class="alert alert-danger">
+                        {{ session()->get('error') }}
+                    </div>
                 @endif
                 <p class="login-box-msg">Sign in to start your dashboard</p>
-                <form action="{{url('login')}}" method="POST">
+                <form action="{{ url('login') }}" method="POST">
                     @csrf
                     <h1>Login Form</h1>
                     <div>
@@ -39,8 +39,7 @@
                         </div>
                     </div>
                 </form>
-            </section>    
-        </div>    
-    </div>    
-
+            </section>
+        </div>
+    </div>
 @endsection

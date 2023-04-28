@@ -1,12 +1,12 @@
 @extends ('layouts.appMain')
 
 @section('content')
-    <a href="/event/{{ $event->id }}" class="btn btn-primary absolute-top ml-3 mt-3">Back to previous event</a>
+    <a href="/events" class="btn btn-primary absolute-top ml-3 mt-3">Back to all events</a>
     <h1 class="text-center my-5">Event Registration</h1>
-    <div class="card w-75" style="margin: 30px auto;">
+    <div class="card w-75" style="margin: 30px auto; max-width: 900px">
         <img src="{{ asset('images/' . $event->image) }}" class="w-100 h-100" alt="" style="object-fit: cover">
         <div class="card-body">
-            <h4 class="card-title w-75" style="color: #98acc1">{{ $event->title }}</h4>
+            <h4 class="card-title w-75 mb-3" style="color: #98acc1">{{ $event->title }}</h4>
             <p class="card-text" style="font-size: 18px;">
                 <b>Event date:</b> {{ Carbon\Carbon::parse($event->date_event)->format('d.m.Y') }}
             </p>
@@ -18,7 +18,7 @@
                         {{ session()->get('error') }}
                     </div>
                 @endif
-                @include('common.errors') 
+                @include('common.errors')
                 <p class="card-text text-center mb-3" style="font-size: 22px; color: #abb0b9">Event registration form</p>
                 <form action="{{ url('event/' . $event->id . '/register') }}" method="POST" class="px-3 w-50 my-2 mx-auto">
                     @csrf
@@ -44,8 +44,7 @@
                         <input type="number" class="form-control" name="members_number" placeholder="Enter members number"
                             required>
                     </div>
-                    <button type="submit" class="btn btn-success mt-3 position-absolute"
-                        style="right: 0;">
+                    <button type="submit" class="btn btn-success mt-3 position-absolute" style="right: 0;">
                         Register for this event
                     </button>
                 </form>

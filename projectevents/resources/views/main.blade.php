@@ -15,9 +15,7 @@
                         {{ Carbon\Carbon::parse($event->date_event)->format('d.m.Y') }}
                     </h4>
                     <div class="btn_container d-flex mt-3 justify-content-end w-100 h-25">
-                        <a href="{{url('event/'.$event->id)}}" 
-                            class="btn btn-primary"
-                            style="height: fit-content;">
+                        <a href="{{ url('event/' . $event->id) }}" class="btn btn-primary" style="height: fit-content;">
                             Read more
                         </a>
                     </div>

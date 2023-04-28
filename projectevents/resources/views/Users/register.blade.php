@@ -10,7 +10,7 @@
                         {{ session()->get('error') }}
                     </div>
                 @endif
-                @include('common.errors') 
+                @include('common.errors')
                 <p class="login-box-msg">Sign up to start your dashboard</p>
                 <form action="{{ url('register') }}" method="POST">
                     @csrf
@@ -50,5 +50,4 @@
             </section>
         </div>
     </div>
-
 @endsection

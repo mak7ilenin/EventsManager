@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthController;
 
 
@@ -34,7 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::middleware('manager')->group(function () {
         //--------------------------Event list CRUD
-        //Список - вывод на страницу - get
+        // Список - вывод на страницу - get
         Route::get('/eventlist', [EventController::class, 'index']);
         //---------------------- add event
         Route::get('/addevent', [EventController::class, 'create']);
@@ -47,15 +48,17 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::middleware('admin')->group(function () {
-        //by register user
+        // by register user
         Route::get('/users', [UserController::class, 'index']);
         Route::post('/userByrole', [UserController::class, 'userByrole']);
-        //add user
+        // add user
         Route::get('/adduser', [UserController::class, 'create']);
         Route::post('/adduser', [UserController::class, 'store']);
-        //edit user
+        // edit user
         Route::get('/edituser/{user}', [UserController::class, 'edit']);
         Route::post('/edituser/{user}', [UserController::class, 'update']);
+        // register events
+        Route::get('/registerlist', [RegisterController::class, 'index']);
     });
     Route::get('/profile/{user}', [UserController::class, 'edit']);
     Route::get('/edituser/{user}', [UserController::class, 'edit']);
