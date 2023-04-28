@@ -109,6 +109,14 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        // $startDate = Carbon::parse($event->date_event);
+        // $endDate = Carbon::parse(Carbon::now());
+  
+        // $diffInDays = $startDate->diffInDays($endDate);
+        // $diffInMonths = $startDate->diffInMonths($endDate);
+        // $diffInYears = $startDate->diffInYears($endDate);
+        // $updated_at = "$diffInYears years $diffInMonths months $diffInDays days";
+
         $updateDate = $event->updated_at;
         $date = new Carbon($updateDate);
         $currentYear = now()->year;
