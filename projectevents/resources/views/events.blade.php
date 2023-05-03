@@ -19,19 +19,27 @@
         @if (count($events) == 0)
             <h3 class="my-3">There is no events at the moment.</h3>
         @else
-            @foreach ($events as $event)
-                <div class="card mx-3 my-2" style="width: 30rem; height: 450px">
-                    <div class="cart-img-top w-100 h-50">
+            @foreach ($events as $key => $event)
+                <div class="card mx-3 my-3" style="width: 30rem; height: 550px; box-shadow: 0 0 20px -2px #000">
+                    <div class="cart-img-top w-100" style="height: 65%">
                         <img src="{{ asset('images/' . $event->image) }}" class="w-100 h-100" alt=""
                             style="object-fit: cover">
                     </div>
-                    <div class="card-body h-50 pb-0 d-flex flex-wrap">
-                        <h5 class="card-title w-100 h-25 text-capitalize fw-bold">{{ $event->title }}</h5>
-                        <h4 class="card-text w-100">Date:
+                    <div class="card-body pb-0 d-flex flex-wrap" style="height: 35%">
+                        <h5 class="card-title w-100 text-capitalize fw-bold text-center" style="font-size: 24px;">{{ $event->title }}</h5>
+                        <h4 class="card-text w-100 text-center">
                             {{ Carbon\Carbon::parse($event->date_event)->format('d.m.Y') }}
                         </h4>
-                        <div class="btn_container d-flex mt-3 justify-content-end w-100 h-25">
-                            <a href="{{ url('event/' . $event->id) }}" class="btn btn-primary" style="height: fit-content;">
+                        <p class="card-text text-center w-100 mb-1" style="font-size: 22px;">
+                            @if ($count_members[$key] == 0)
+                                Registered users: No one
+                            @else
+                                Registered users: {{ $count_members[$key] }} people
+                            @endif
+                        </p>
+                        <div class="btn_container w-100 mb-2 mt-1">
+                            <a href="{{ url('event/' . $event->id) }}" class="btn btn-primary w-100"
+                                style="height: fit-content; font-size: 19px">
                                 Read more
                             </a>
                         </div>

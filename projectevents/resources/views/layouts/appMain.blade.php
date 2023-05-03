@@ -22,6 +22,7 @@
     <link href='{{ asset('components/css/font-awesome/css/font-awesome.min.css') }}' rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href='{{ asset('components/css/custom.min.css') }}' rel="stylesheet">
+    <link href='{{ asset('components/css/style.css') }}' rel="stylesheet">
 </head>
 
 <body class="main">

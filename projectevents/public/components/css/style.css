@@ -3,6 +3,25 @@
     padding: 15px;
     color: #444;
     border-top: 1px solid #d2d6de;
-	margin-left: 0;
-	margin-top: 20px;	
+    margin-left: 0;
+    margin-top: 20px;
+}
+@media (max-width: 620px) {
+    .card-body .top_container {
+        flex-wrap: wrap;
+    }
+    .card-body .top_container h4,
+    .card-body .top_container a {
+        width: 100% !important;
+        text-align: center;
+        margin: 5px auto;
+    }
+    .card-body .top_container a {
+        margin: 10px auto;
+    }
+}
+@media (max-width: 450px) {
+    .card-body .top_container a {
+        font-size: 16px !important;
+    }
 }

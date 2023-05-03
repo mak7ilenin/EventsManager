@@ -13,7 +13,14 @@ class EventController extends Controller
     public function listLimit()
     {
         $events = Event::orderBy('date_event', 'DESC')->take(3)->get();
-        return view('main', compact('events'));
+        // GET AMOUNT OF REGISTERED MEMBERS
+        $count_members = array();
+        foreach ($events as $event) {
+            $count_members[] = RegisterEvents::orderBy('events_id')
+                ->where('events_id', '=', $event->id)
+                ->count();
+        }
+        return view('main', compact('events', 'count_members'));
     }
     public function allEvents(Request $request)
     {
@@ -39,7 +46,15 @@ class EventController extends Controller
             ->select(DB::raw('MONTHNAME(date_event) AS month, MONTH(date_event) as monthNum'))
             ->orderBy('date_event', 'DESC')
             ->get();
-        return view('events', compact('events', 'months'));
+        
+        // GET AMOUNT OF REGISTERED MEMBERS
+        $count_members = array();
+        foreach ($events as $event) {
+            $count_members[] = RegisterEvents::orderBy('events_id')
+                ->where('events_id', '=', $event->id)
+                ->count();
+        }
+        return view('events', compact('events', 'months', 'count_members'));
     }
     public function registration(Event $event)
     {
@@ -52,7 +67,7 @@ class EventController extends Controller
             'email' => 'required|string|email|max:255',
             'phone' => 'required|string|max:255',
             'group_name' => 'required|string|max:255',
-            'members_number' => 'required|numeric|max:4',
+            'members_number' => 'required|numeric|max:1000',
         ]);
         RegisterEvents::create([
             'contact_person' => $request->name,
@@ -116,6 +131,10 @@ class EventController extends Controller
         // $diffInMonths = $startDate->diffInMonths($endDate);
         // $diffInYears = $startDate->diffInYears($endDate);
         // $updated_at = "$diffInYears years $diffInMonths months $diffInDays days";
+        
+        $count_members = RegisterEvents::orderBy('events_id')
+            ->where('events_id', '=', $event->id)
+            ->count();
 
         $updateDate = $event->updated_at;
         $date = new Carbon($updateDate);
@@ -145,14 +164,14 @@ class EventController extends Controller
             } else {
                 $updated_at = "$year year ago";
             }
-            return view('events.detail', compact('event', 'updated_at'));
+            return view('events.detail', compact('event', 'updated_at', 'count_members'));
         } else if ($month != null) {
             if ($month > 1) {
                 $updated_at = "$month months ago";
             } else {
                 $updated_at = "$month month ago";
             }
-            return view('events.detail', compact('event', 'updated_at'));
+            return view('events.detail', compact('event', 'updated_at', 'count_members'));
         } else if ($day != null) {
             if ($day > 1) {
                 $weekDiff = (int)($day / 7);
@@ -169,7 +188,7 @@ class EventController extends Controller
                 $updated_at = "Yesterday";
             }
         }
-        return view('events.detail', compact('event', 'updated_at'));
+        return view('events.detail', compact('event', 'updated_at', 'count_members'));
     }
 
     /**
