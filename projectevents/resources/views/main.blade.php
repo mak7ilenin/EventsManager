@@ -14,7 +14,8 @@
                             style="object-fit: cover">
                     </div>
                     <div class="card-body pb-0 d-flex flex-wrap" style="height: 35%">
-                        <h5 class="card-title w-100 text-capitalize fw-bold text-center" style="font-size: 24px;">{{ $event->title }}</h5>
+                        <h5 class="card-title w-100 text-capitalize fw-bold text-center" style="font-size: 24px;">
+                            {{ $event->title }}</h5>
                         <h4 class="card-text w-100 text-center">
                             {{ Carbon\Carbon::parse($event->date_event)->format('d.m.Y') }}
                         </h4>
@@ -35,5 +36,33 @@
                 </div>
             @endforeach
         @endif
+    </div>
+    <div class="w-100 mt-2 mb-4 d-flex justify-content-center align-items-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination mb-0">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                @for ($i = 0; $i < count($pages); $i++)
+                    <p>{{$pages[$i]->id}}</p>
+                @endfor
+
+                @for ($i = 0; $i < count($events); $i++)
+                    <li class="page-item">
+                        <button type="submit" formaction="{{ url('events?page=' . $i . '') }}"
+                            class="page-link m-0">1</button>
+                    </li>
+                @endfor
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 @endsection

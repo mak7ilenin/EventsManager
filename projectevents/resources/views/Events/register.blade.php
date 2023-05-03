@@ -2,7 +2,7 @@
 
 @section('content')
     <a href="/events" class="btn btn-primary absolute-top ml-3 mt-3">Back to all events</a>
-    <h1 class="text-center my-5">Event Registration</h1>
+    <h1 class="text-center my-2">Event Registration</h1>
     <div class="card w-75" style="margin: 30px auto; max-width: 900px">
         <img src="{{ asset('images/' . $event->image) }}" class="w-100 h-100" alt="" style="object-fit: cover">
         <div class="card-body">

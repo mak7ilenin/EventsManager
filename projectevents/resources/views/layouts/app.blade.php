@@ -73,7 +73,9 @@
                                     </li>
                                 @endif
                             </ul>
-                            <a href="/" class="btn btn-primary ml-3">Back to the events</a>
+                            <div class="mx-2 mt-3">
+                                <a href="/" class="btn btn-outline-secondary w-100">Back to the events</a>
+                            </div>
                         </div>
                     </div>
                     <!-- /sidebar menu -->

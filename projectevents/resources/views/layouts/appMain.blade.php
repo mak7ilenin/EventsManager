@@ -34,8 +34,6 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/events">Events</a>
@@ -70,6 +68,7 @@
             </ul>
         </div>
     </nav>
+
     @yield('content')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

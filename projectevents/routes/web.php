@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 
 /*
@@ -57,9 +57,8 @@ Route::group(['middleware' => ['auth']], function () {
         // edit user
         Route::get('/edituser/{user}', [UserController::class, 'edit']);
         Route::post('/edituser/{user}', [UserController::class, 'update']);
-        // register events
-        Route::get('/registerlist', [RegisterController::class, 'index']);
     });
+    Route::get('/registerlist', [RegisterController::class, 'index']);
     Route::get('/profile/{user}', [UserController::class, 'edit']);
     Route::get('/edituser/{user}', [UserController::class, 'edit']);
     Route::post('/edituser/{user}', [UserController::class, 'update']);

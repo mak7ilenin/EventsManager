@@ -13,6 +13,10 @@ class EventController extends Controller
     public function listLimit()
     {
         $events = Event::orderBy('date_event', 'DESC')->take(3)->get();
+
+        // PAGINATION
+        $pages = Event::orderBy('date_event', 'DESC')->paginate(3);
+
         // GET AMOUNT OF REGISTERED MEMBERS
         $count_members = array();
         foreach ($events as $event) {
@@ -20,7 +24,7 @@ class EventController extends Controller
                 ->where('events_id', '=', $event->id)
                 ->count();
         }
-        return view('main', compact('events', 'count_members'));
+        return view('main', compact('events', 'count_members', 'pages'));
     }
     public function allEvents(Request $request)
     {
@@ -46,7 +50,7 @@ class EventController extends Controller
             ->select(DB::raw('MONTHNAME(date_event) AS month, MONTH(date_event) as monthNum'))
             ->orderBy('date_event', 'DESC')
             ->get();
-        
+
         // GET AMOUNT OF REGISTERED MEMBERS
         $count_members = array();
         foreach ($events as $event) {
@@ -126,12 +130,12 @@ class EventController extends Controller
     {
         // $startDate = Carbon::parse($event->date_event);
         // $endDate = Carbon::parse(Carbon::now());
-  
+
         // $diffInDays = $startDate->diffInDays($endDate);
         // $diffInMonths = $startDate->diffInMonths($endDate);
         // $diffInYears = $startDate->diffInYears($endDate);
         // $updated_at = "$diffInYears years $diffInMonths months $diffInDays days";
-        
+
         $count_members = RegisterEvents::orderBy('events_id')
             ->where('events_id', '=', $event->id)
             ->count();
