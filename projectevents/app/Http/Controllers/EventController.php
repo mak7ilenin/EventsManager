@@ -12,10 +12,7 @@ class EventController extends Controller
 {
     public function listLimit()
     {
-        $events = Event::orderBy('date_event', 'DESC')->take(3)->get();
-
-        // PAGINATION
-        $pages = Event::orderBy('date_event', 'DESC')->paginate(3);
+        $events = Event::orderBy('date_event', 'DESC')->paginate(4);
 
         // GET AMOUNT OF REGISTERED MEMBERS
         $count_members = array();
@@ -24,7 +21,7 @@ class EventController extends Controller
                 ->where('events_id', '=', $event->id)
                 ->count();
         }
-        return view('main', compact('events', 'count_members', 'pages'));
+        return view('main', compact('events', 'count_members'));
     }
     public function allEvents(Request $request)
     {
@@ -33,16 +30,16 @@ class EventController extends Controller
             $search = $request->input('search');
             $events = Event::orderBy('date_event', 'DESC')
                 ->where('title', 'like', '%' . $search . '%')
-                ->get();
+                ->paginate(4);
         }
         // MONTHS FILTER FUNCTION
         else if ($request->input('month') != null) {
             $reqMonths = $request->input('month');
-            $events = Event::whereIn(DB::raw("MONTH(date_event)"), $reqMonths)->get();
+            $events = Event::whereIn(DB::raw("MONTH(date_event)"), $reqMonths)->paginate(4);
         }
         // ALL EVENTS RENDER
         else {
-            $events = Event::orderBy('date_event', 'desc')->get();
+            $events = Event::orderBy('date_event', 'desc')->paginate(4);;
         }
         // GET ALL USED MONTHS BY EVENTS
         $months = DB::table('events')

@@ -1,7 +1,7 @@
 @extends('layouts.appMain')
 
 @section('content')
-    <h1 class="text-center mb-5 mt-5">Upcoming events</h1>
+    <h1 class="text-center mb-2 mt-5">Upcoming events</h1>
     <div class="d-flex w-75 pt-2 mx-auto my-3 flex-row bd-highlight justify-content-center"
         style="flex-wrap: wrap; border-top: 2px solid #ffffff">
         @if (count($events) == 0)
@@ -37,32 +37,7 @@
             @endforeach
         @endif
     </div>
-    <div class="w-100 mt-2 mb-4 d-flex justify-content-center align-items-center">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination mb-0">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                @for ($i = 0; $i < count($pages); $i++)
-                    <p>{{$pages[$i]->id}}</p>
-                @endfor
-
-                @for ($i = 0; $i < count($events); $i++)
-                    <li class="page-item">
-                        <button type="submit" formaction="{{ url('events?page=' . $i . '') }}"
-                            class="page-link m-0">1</button>
-                    </li>
-                @endfor
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+    <div class="d-flex justify-content-center">
+        {!! $events->links() !!}
     </div>
 @endsection
